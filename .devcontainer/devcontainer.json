@@ -1,0 +1,10 @@
+{
+  "name": "doqsa Dev Container",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "forwardPorts": [
+    8080
+  ],
+  "remoteUser": "vscode"
+}
