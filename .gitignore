@@ -18,9 +18,13 @@ hs_err_pid*
 replay_pid*
 
 ### Gradle / build output ###
+HELP.md
 .gradle/
 build/
 out/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 ### IntelliJ IDEA ###
 .idea/*
@@ -33,6 +37,28 @@ out/
 *.iws
 .idea_modules/
 cmake-build-*/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
 
 ### VS Code ###
 .vscode/*
