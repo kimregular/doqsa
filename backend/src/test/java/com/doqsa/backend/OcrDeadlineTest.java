@@ -1,6 +1,6 @@
 package com.doqsa.backend;
 
-import com.doqsa.backend.adapter.out.storage.LocalImageStorage;
+import com.doqsa.backend.adapter.out.storage.local.LocalImageStorage;
 import com.doqsa.backend.application.model.OcrModels.Receipt;
 import com.doqsa.backend.application.port.in.OcrUseCase;
 import com.doqsa.backend.application.port.out.OcrImageAnalyzer;

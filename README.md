@@ -42,7 +42,7 @@
 - `application/port/in`: 작업 생성·업로드 확인·결과 조회·삭제 UseCase
 - `application/port/out`: 저장소·이미지 저장소·OCR 분석기·큐·작업 실행 포트
 - `adapter/out/queue`: 커밋 후 이벤트와 Spring `@Async` 실행 어댑터
-- `adapter/out/storage`: 로컬 개발 저장소와 S3 어댑터
+- `adapter/out/storage`: 제공자별 플러그인 패키지(`local`, `s3`). `doqsa.storage.provider` 값으로 하나만 활성화되며, 새 제공자는 하위 패키지와 조건부 `@Configuration` 하나로 추가한다
 - `adapter/out/ocr`: Gemini 어댑터
 - `domain/ocritem`: JPA 엔티티와 상태 전이·재시도·선점 규칙
 

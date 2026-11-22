@@ -1,6 +1,5 @@
-package com.doqsa.backend.adapter.in.web;
+package com.doqsa.backend.adapter.out.storage.local;
 
-import com.doqsa.backend.adapter.out.storage.LocalImageStorage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -10,8 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.net.URLConnection;
 
+/**
+ * Upload/download endpoints that stand in for presigned URLs while the local storage plugin is active.
+ * Lives in the plugin package so removing the plugin removes these endpoints too.
+ */
 @RestController @Profile("!prod") @RequiredArgsConstructor
-@ConditionalOnProperty(name = "doqsa.storage.provider", havingValue = "local", matchIfMissing = true)
+@ConditionalOnProperty(name = LocalStorageConfiguration.PROVIDER_PROPERTY,
+        havingValue = LocalStorageConfiguration.PROVIDER, matchIfMissing = true)
 public class LocalImageController {
     private final LocalImageStorage storage;
     @PutMapping("/api/dev/uploads/{token}")

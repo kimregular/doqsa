@@ -1,11 +1,8 @@
-package com.doqsa.backend.adapter.out.storage;
+package com.doqsa.backend.adapter.out.storage.s3;
 
 import com.doqsa.backend.application.model.OcrModels.Upload;
 import com.doqsa.backend.application.port.out.ImageStorage;
 import com.doqsa.backend.application.service.OcrExceptions;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Component;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
@@ -13,14 +10,13 @@ import software.amazon.awssdk.services.s3.presigner.model.*;
 import java.time.Duration;
 import java.util.UUID;
 
-@Component
-@ConditionalOnProperty(name = "doqsa.storage.provider", havingValue = "s3")
+/** S3 presigned-URL image storage; registered by {@link S3StorageConfiguration}. */
 public class S3ImageStorage implements ImageStorage {
     private final S3Client client;
     private final S3Presigner presigner;
     private final String bucket;
 
-    public S3ImageStorage(S3Client client, S3Presigner presigner, @Value("${doqsa.storage.bucket}") String bucket) {
+    public S3ImageStorage(S3Client client, S3Presigner presigner, String bucket) {
         this.client = client;
         this.presigner = presigner;
         this.bucket = bucket;

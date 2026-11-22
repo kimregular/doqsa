@@ -1,26 +1,21 @@
-package com.doqsa.backend.adapter.out.storage;
+package com.doqsa.backend.adapter.out.storage.local;
 
 import com.doqsa.backend.application.model.OcrModels.Upload;
 import com.doqsa.backend.application.port.out.ImageStorage;
 import com.doqsa.backend.application.service.OcrExceptions;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 import java.io.*;
 import java.nio.file.*;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component @Profile("!prod")
-@ConditionalOnProperty(name = "doqsa.storage.provider", havingValue = "local", matchIfMissing = true)
+/** Local filesystem image storage for development; registered by {@link LocalStorageConfiguration}. */
 public class LocalImageStorage implements ImageStorage {
     private final Path root;
     private final Map<String, Ticket> tickets = new ConcurrentHashMap<>();
     private record Ticket(String key, Instant expiresAt) { }
 
-    public LocalImageStorage(@Value("${doqsa.storage.local-directory:./data/images}") String directory) throws IOException {
+    public LocalImageStorage(String directory) throws IOException {
         root = Path.of(directory).toAbsolutePath().normalize();
         Files.createDirectories(root);
     }

@@ -1,6 +1,5 @@
-package com.doqsa.backend.adapter;
+package com.doqsa.backend.adapter.out.storage.s3;
 
-import com.doqsa.backend.adapter.out.storage.S3ImageStorage;
 import com.doqsa.backend.application.service.OcrExceptions;
 import org.junit.jupiter.api.Test;
 import software.amazon.awssdk.services.s3.S3Client;
