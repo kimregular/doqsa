@@ -2,7 +2,7 @@
   "name": "doqsa Dev Container",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "workspaceFolder": "/workspaces/doqsa",
   "forwardPorts": [
     8080
   ],

@@ -4,3 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile
     command: sleep infinity
+    working_dir: /workspaces/doqsa
+    volumes:
+      - ..:/workspaces/doqsa:cached
+      - gradle-cache:/home/vscode/.gradle
+
+volumes:
+  gradle-cache:

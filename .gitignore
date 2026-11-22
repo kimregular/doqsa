@@ -1,4 +1,8 @@
 ### Java ###
+backend/data/
+.env
+.env.*
+!.env.example
 *.class
 *.log
 *.ctxt

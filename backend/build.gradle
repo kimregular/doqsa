@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.5'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.asciidoctor.jvm.convert' version '4.0.5'
 }
 
 group = 'com.doqsa'
@@ -18,6 +19,12 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3'
+	implementation platform('org.springframework.ai:spring-ai-bom:2.0.0-M4')
+	implementation 'org.springframework.ai:spring-ai-starter-model-google-genai'
+	implementation platform('software.amazon.awssdk:bom:2.33.12')
+	implementation 'software.amazon.awssdk:s3'
 	implementation 'org.springframework.boot:spring-boot-h2console'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
@@ -26,6 +33,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc:4.0.0'
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testAnnotationProcessor 'org.projectlombok:lombok'
@@ -33,4 +41,23 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	outputs.dir layout.buildDirectory.dir('generated-snippets')
+}
+
+asciidoctorj {
+	version = '3.0.0'
+}
+
+asciidoctor {
+	dependsOn test
+	sourceDir file('src/docs/asciidoc')
+	outputDir layout.buildDirectory.dir('docs').get().asFile
+	inputs.dir layout.buildDirectory.dir('generated-snippets')
+	attributes 'snippets': layout.buildDirectory.dir('generated-snippets').get().asFile.absolutePath
+	baseDirFollowsSourceFile()
+}
+
+bootJar {
+	dependsOn asciidoctor
+	from(asciidoctor.outputDir) { into 'BOOT-INF/classes/static/docs' }
 }
