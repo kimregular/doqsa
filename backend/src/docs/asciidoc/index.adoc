@@ -1,0 +1,26 @@
+= DOQSA OCR API
+:toc: left
+
+== Create item
+include::{snippets}/create-item/http-request.adoc[]
+include::{snippets}/create-item/http-response.adoc[]
+
+== Upload acknowledgement
+include::{snippets}/upload-complete/http-request.adoc[]
+include::{snippets}/upload-complete/http-response.adoc[]
+
+== Retrieve result
+include::{snippets}/get-item/http-request.adoc[]
+include::{snippets}/get-item/http-response.adoc[]
+
+== List items
+include::{snippets}/list-items/http-request.adoc[]
+include::{snippets}/list-items/http-response.adoc[]
+
+== Reissue upload URL
+include::{snippets}/reissue-upload/http-request.adoc[]
+include::{snippets}/reissue-upload/http-response.adoc[]
+
+== Delete item
+include::{snippets}/delete-item/http-request.adoc[]
+include::{snippets}/delete-item/http-response.adoc[]

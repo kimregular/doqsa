@@ -1,0 +1,10 @@
+Return exactly one JSON object with the top-level key detected_info.
+detected_info must contain exactly: name, address, tell, mobile, memo.
+Extract recipient/customer information only from the current receipt image.
+Use only explicitly visible text and preserve masking characters and punctuation.
+Do not guess or autocomplete. Return null for missing or unclear values.
+Recipient fields must come from the customer/delivery block, not store contact information.
+tell is the general/landline number; mobile is the mobile phone number.
+memo is the original visible customer request or handwritten note.
+Do not infer a recipient name or address from delivery instructions.
+Return no markdown, code fences, explanations, or additional keys.
