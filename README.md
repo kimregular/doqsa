@@ -43,7 +43,7 @@
 - `application/port/out`: 저장소·이미지 저장소·OCR 분석기·큐·작업 실행 포트
 - `adapter/out/queue`: 커밋 후 이벤트와 Spring `@Async` 실행 어댑터
 - `adapter/out/storage`: 제공자별 플러그인 패키지(`local`, `s3`). `doqsa.storage.provider` 값으로 하나만 활성화되며, 새 제공자는 하위 패키지와 조건부 `@Configuration` 하나로 추가한다
-- `adapter/out/ocr`: Gemini 어댑터
+- `adapter/out/ocr`: 제공자별 OCR 플러그인 패키지(`gemini`, `local`). `doqsa.ocr.provider` 값(`none`·`local`·`gemini`)으로 하나만 활성화되며, 프롬프트와 응답 형식은 `ReceiptExtraction`을 공유한다
 - `domain/ocritem`: JPA 엔티티와 상태 전이·재시도·선점 규칙
 
 DB가 대기·실행 상태의 원본이다. 이벤트 누락은 폴링으로 보완하고, 실행 중단은 lease 만료 후 재선점한다.
@@ -69,11 +69,12 @@ cd /workspaces/doqsa/backend
 
 기본 설정은 로컬 이미지 저장소와 파일 H2를 사용한다. 인증은 아직 구현하지 않았으므로 로컬 개발 환경에서 사용한다.
 기본 OCR 제공자는 비활성화되어 있어 실제 분석 요청은 `OCR_FAILED`로 끝난다. 테스트는 OCR 대역을 사용해 외부 호출 없이 실행한다.
+`OCR_PROVIDER=local`로 실행하면 모델 호출 없이 고정 샘플(`resources/ocr/local-receipt.json`, `doqsa.ocr.local.response-location`으로 변경 가능)을 돌려주어 `COMPLETED`까지의 흐름을 확인할 수 있다. 이 플러그인은 `prod` 프로파일에서 비활성화된다.
 
 실제 Gemini OCR은 환경변수를 설정한 후 실행한다. `backend/.env.example`은 참고용이며 자동으로 읽지 않는다.
 
 ```sh
-export OCR_PROVIDER=google-genai
+export OCR_PROVIDER=gemini
 export GOOGLE_GEMINI_API_KEY='<API key>'
 export GOOGLE_GEMINI_MODEL=gemini-2.5-flash
 ./gradlew bootRun

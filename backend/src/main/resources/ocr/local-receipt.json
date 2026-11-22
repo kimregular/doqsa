@@ -1,0 +1,9 @@
+{
+  "detected_info": {
+    "name": "로컬 샘플",
+    "address": "로컬 OCR 샘플 주소",
+    "tell": null,
+    "mobile": "010-0000-0000",
+    "memo": "doqsa.ocr.provider=local 고정 응답"
+  }
+}
