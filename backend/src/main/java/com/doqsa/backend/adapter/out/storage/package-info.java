@@ -5,6 +5,7 @@
  * <ul>
  *   <li>{@code local} (default, not in {@code prod}): {@code local} package</li>
  *   <li>{@code s3}: {@code s3} package</li>
+ *   <li>{@code supabase}: {@code supabase} package</li>
  * </ul>
  *
  * <p>Plugin contract, so that adding or removing a provider touches nothing outside its package:
