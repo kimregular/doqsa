@@ -1,13 +1,16 @@
 package com.doqsa.backend.adapter.out.ocr;
 
 import com.doqsa.backend.adapter.out.ocr.gemini.*;
+import com.doqsa.backend.adapter.out.ocr.grok.*;
 import com.doqsa.backend.adapter.out.ocr.local.*;
+import com.doqsa.backend.adapter.out.ocr.openai.*;
 import com.doqsa.backend.application.port.out.OcrImageAnalyzer;
 import com.doqsa.backend.global.OcrProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.ai.google.genai.GoogleGenAiChatModel;
+import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import tools.jackson.databind.json.JsonMapper;
 import static org.assertj.core.api.Assertions.*;
@@ -17,7 +20,8 @@ class OcrPluginSelectionTest {
             .withBean(OcrProperties.class)
             .withBean(JsonMapper.class, () -> JsonMapper.builder().build())
             .withBean(ReceiptExtraction.class)
-            .withUserConfiguration(DisabledOcrConfiguration.class, LocalOcrConfiguration.class, GeminiOcrConfiguration.class);
+            .withUserConfiguration(DisabledOcrConfiguration.class, LocalOcrConfiguration.class, GeminiOcrConfiguration.class,
+                    OpenAiOcrConfiguration.class, GrokOcrConfiguration.class);
 
     @Test void ocrIsDisabledWhenNoProviderIsConfigured() {
         runner.run(context -> assertThat(context).hasSingleBean(OcrImageAnalyzer.class)
@@ -55,8 +59,17 @@ class OcrPluginSelectionTest {
         runner.withPropertyValues("doqsa.ocr.provider=gemini").run(context -> assertThat(context).hasFailed());
     }
     @ParameterizedTest @ValueSource(strings = {"openai", "grok"})
-    void providersWithoutAPluginRegisterNoAnalyzer(String provider) {
-        runner.withPropertyValues("doqsa.ocr.provider=" + provider)
+    void openAiCompatibleProvidersWireOnlyTheirOwnModel(String provider) {
+        runner.withPropertyValues("doqsa.ocr.provider=" + provider, "doqsa.ocr." + provider + ".api-key=test-key")
+                .run(context -> {
+                    assertThat(context).hasNotFailed().hasSingleBean(OcrImageAnalyzer.class)
+                            .hasSingleBean(OpenAiChatModel.class).doesNotHaveBean(GoogleGenAiChatModel.class);
+                    assertThat(context.getBean(OcrImageAnalyzer.class)).isInstanceOf(
+                            provider.equals("openai") ? OpenAiOcrImageAnalyzer.class : GrokOcrImageAnalyzer.class);
+                });
+    }
+    @Test void unknownProviderRegistersNoAnalyzer() {
+        runner.withPropertyValues("doqsa.ocr.provider=unknown")
                 .run(context -> assertThat(context).doesNotHaveBean(OcrImageAnalyzer.class));
     }
 }

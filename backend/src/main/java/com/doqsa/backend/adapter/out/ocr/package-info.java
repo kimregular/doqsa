@@ -6,7 +6,8 @@
  *   <li>{@code none} (default): {@code local.DisabledOcrConfiguration}, every attempt ends in {@code OCR_FAILED}</li>
  *   <li>{@code local}: {@code local.LocalOcrConfiguration}, fixed offline response, never in {@code prod}</li>
  *   <li>{@code gemini}: {@code gemini.GeminiOcrConfiguration}</li>
- *   <li>{@code openai}, {@code grok}: reserved names; no plugin yet, so the application refuses to start</li>
+ *   <li>{@code openai}: {@code openai.OpenAiOcrConfiguration}</li>
+ *   <li>{@code grok}: {@code grok.GrokOcrConfiguration} (xAI, OpenAI-compatible API)</li>
  * </ul>
  *
  * <p>Plugin contract, so that adding or removing a model touches nothing outside its package:

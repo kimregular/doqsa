@@ -80,6 +80,8 @@ export GOOGLE_GEMINI_MODEL=gemini-2.5-flash
 ./gradlew bootRun
 ```
 
+OpenAI와 Grok OCR은 각각 `OCR_PROVIDER=openai`, `OCR_PROVIDER=grok`로 선택한다. API 키·모델·실행·테스트 설정은 [OpenAI·Grok OCR 가이드](backend/docs/openai-grok-ocr.md)를 참고한다.
+
 S3는 `STORAGE_PROVIDER=s3`, `AWS_S3_BUCKET`, `AWS_REGION`을 설정하고 AWS 기본 자격증명 체인을 사용한다.
 버킷 생성·브라우저 CORS·권한 설정은 별도로 필요하다. 로컬 저장소와 업로드 API는 `prod` 프로파일에서 비활성화된다.
 운영 DB 설정과 인증은 별도 구현 대상이다.
