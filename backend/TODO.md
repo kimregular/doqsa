@@ -4,6 +4,7 @@
 * [✅] 이미지 저장소 포트와 로컬·S3 어댑터
 * [✅] Supabase S3 어댑터·개발용 Docker 구성·실제 Storage 왕복 테스트
 * [✅] Gemini OCR 어댑터와 영수증 프롬프트
+* [✅] OpenAI·Grok OCR 어댑터·공급자 선택·모의 HTTP 계약 테스트
 * [✅] Spring 비동기 큐, DB 폴링, 선점·lease·재시도·정상 종료
 * [✅] 공통 오류 처리·추적 로깅·OpenAPI·REST Docs
 * [✅] 개발 컨테이너 빌드 및 기능·동시성·복구 테스트
@@ -18,3 +19,9 @@ Supabase 추가 검증: 개발 컨테이너에서 실제 Supabase Storage v1.89.
 `./gradlew clean test bootJar` 성공, 테스트 35개 통과(실제 Storage 통합 테스트 1개 포함).
 비공개 버킷 초기화·재실행, Presigned PUT/GET, HEAD, SDK 읽기, URL 재발급을 확인했다.
 실행 방법은 [Supabase Storage 개발 가이드](docs/supabase-storage.md)를 따른다.
+
+OpenAI·Grok 추가 검증: 개발 컨테이너에서 `./gradlew clean test bootJar` 성공.
+총 67개 중 66개 통과, 기존 Supabase 외부 통합 테스트 1개는 환경변수 미설정으로 건너뛰었다.
+신규 OCR 테스트 28개로 구조화 추출·이미지 요청·공급자별 설정·단일 분석기 선택·timeout·재시도를 검증했다.
+실제 OpenAI·xAI 호출과 인식 정확도 평가는 별도 검증 대상이다.
+실행 방법은 [OpenAI·Grok OCR 가이드](docs/openai-grok-ocr.md)를 따른다.
